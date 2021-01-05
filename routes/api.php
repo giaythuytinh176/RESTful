@@ -25,3 +25,10 @@ Route::prefix("customers")->group(function () {
     Route::put('/{customerId}', 'CustomerController@update')->name('customers.update');
     Route::delete('/{customerId}', 'CustomerController@destroy')->name('customers.destroy');
 });
+
+Route::post('login', 'APIController@login');
+
+Route::group(['middleware' => 'auth.jwt'], function () {
+    Route::get('logout', 'APIController@logout');
+    Route::get('users', 'UserController@index');
+});

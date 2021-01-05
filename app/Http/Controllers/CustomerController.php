@@ -13,11 +13,16 @@ class CustomerController extends Controller
         $this->customerService = $customerService;
     }
 
+    public function index_()
+    {
+        $json = $this->index()->content();
+        return view("index", compact(['json']));
+    }
+
     public function index()
     {
         $customers = $this->customerService->getAll();
         //dump("CustomerController 4");
-
       //  dd($customers);
         return response()->json($customers, 200);
     }
@@ -25,14 +30,12 @@ class CustomerController extends Controller
     public function show($id)
     {
         $dataCustomer = $this->customerService->findById($id);
-
         return response()->json($dataCustomer['customers'], $dataCustomer['statusCode']);
     }
 
     public function store(Request $request)
     {
         $dataCustomer = $this->customerService->create($request->all());
-
         return response()->json($dataCustomer['customers'], $dataCustomer['statusCode']);
     }
 
