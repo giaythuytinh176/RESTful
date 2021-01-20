@@ -18,17 +18,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix("customers")->group(function () {
-    Route::get('/', 'CustomerController@index')->name('customers.all');
-    Route::get('/{customerId}', 'CustomerController@show')->name('customers.show');
-    Route::post('/', 'CustomerController@store')->name('customers.store');
-    Route::put('/{customerId}', 'CustomerController@update')->name('customers.update');
-    Route::delete('/{customerId}', 'CustomerController@destroy')->name('customers.destroy');
-});
-
 Route::post('login', 'APIController@login');
+Route::post('register', 'APIController@register');
 
 Route::group(['middleware' => 'auth.jwt'], function () {
+    Route::prefix("customers")->group(function () {
+        Route::get('/', 'CustomerController@index')->name('customers.all');
+        Route::get('/{customerId}', 'CustomerController@show')->name('customers.show');
+        Route::post('/', 'CustomerController@store')->name('customers.store');
+        Route::put('/{customerId}', 'CustomerController@update')->name('customers.update');
+        Route::delete('/{customerId}', 'CustomerController@destroy')->name('customers.destroy');
+    });
     Route::get('logout', 'APIController@logout');
     Route::get('users', 'UserController@index');
 });
