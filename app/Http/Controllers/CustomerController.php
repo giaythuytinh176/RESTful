@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\CustomerService;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -24,6 +25,12 @@ class CustomerController extends Controller
         $customers = $this->customerService->getAll();
         //dump("CustomerController 4");
       //  dd($customers);
+        return response()->json($customers, 200);
+    }
+
+    public function search(Request $request)
+    {
+        $customers = Customer::where('first_name', 'like', '%' . $request->first_name . '%')->get();
         return response()->json($customers, 200);
     }
 
